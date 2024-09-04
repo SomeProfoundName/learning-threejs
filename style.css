@@ -39,6 +39,29 @@ nav ul {
   gap: 4rem;
 }
 
+.button-cont {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  width: 100vw;
+  padding: 0px 50px;
+  justify-content: space-between;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.button-cont button {
+  color: white;
+  font-weight: bold;
+  z-index: 3;
+  border: 3px solid white;
+  background-color: transparent;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
 .title {
   color: white;
   z-index: 3;

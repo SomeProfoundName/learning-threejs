@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import './style.css'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import gsap from 'gsap'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 //Scene
 const scene = new THREE.Scene();
@@ -11,8 +12,16 @@ const geometry = new THREE.SphereGeometry(3, 64, 64);
 const material = new THREE.MeshStandardMaterial({
   color: '#00ff83'
 })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh);
+const ballMesh = new THREE.Mesh(geometry, material)
+// scene.add(ballMesh);
+
+
+const gltfloader = new GLTFLoader();
+gltfloader.load('./public/assets/Collins/Me.glb', function (gltf){
+  gltf.scene.scale.set(5, 5, 5)
+  gltf.scene.position.y = -2
+  scene.add(gltf.scene)
+}) 
 
 //Sizes
 const sizes = {
@@ -24,6 +33,9 @@ const sizes = {
 const light = new THREE.PointLight(0xffffff, 200, 100)
 light.position.set(0, 10, 10)
 scene.add(light)
+
+const ambLight = new THREE.AmbientLight(0x404040, 2)
+scene.add(ambLight)
 
 //Camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 0.1, 100); //0.1 & 100 are clipping options, everythign below 0.1 or over 100 are clipping
@@ -43,7 +55,7 @@ controls.enableDamping = true
 controls.enablePan = false
 controls.enableZoom = false
 controls.autoRotate = true
-controls. autoRotateSpeed = 5
+controls. autoRotateSpeed = 3
 
 //Resize ALWAYS UPDATE, ALWAYS SYNCED
 window.addEventListener("resize", () => {
@@ -79,14 +91,14 @@ window.addEventListener('mousemove', (e) => {
     ]
     // Animate
     let newColor = new THREE.Color(`rgb(${rgb.join(',')})`)
-    gsap.to(mesh.material.color, {r: newColor.r, g: newColor.g, b: newColor.b})
+    gsap.to(ballMesh.material.color, {r: newColor.r, g: newColor.g, b: newColor.b})
   }
 })
 
 
-//GSAP 
-//Timeline
+GSAP 
+Timeline
 const tl = gsap.timeline({defaults: {duration: 1}})
-tl.fromTo(mesh.scale, {z: 0, x:0, y:0}, {z:1, x:1, y:1})
+tl.fromTo(ballMesh.scale, {z: 0, x:0, y:0}, {z:1, x:1, y:1})
 tl.fromTo('nav', {y: '-100%'}, {y:'0%'})
 tl.fromTo('.title', {opacity:0},{opacity:1})
